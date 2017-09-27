@@ -66,10 +66,12 @@ Module StatDB (v : VarsAPI) <: StatDbAPI.
     unfold init'.
 
     step_proc; intros.
-    exists (StateCount state, StateSum state); simpl; intuition idtac.
+    exists tt.
+    simpl; intuition idtac.
 
     step_proc; intros.
-    exists (StateCount state0, StateSum state0); simpl; intuition idtac.
+    exists tt.
+    simpl; intuition idtac.
 
     step_proc; intros.
     eauto.
