@@ -65,13 +65,13 @@ Module StatDB (v : VarsAPI) <: StatDbAPI.
     eapply then_init_compose; eauto.
     unfold init'.
 
-    step_prog; intros.
+    step_proc; intros.
     exists (StateCount state, StateSum state); simpl; intuition idtac.
 
-    step_prog; intros.
+    step_proc; intros.
     exists (StateCount state0, StateSum state0); simpl; intuition idtac.
 
-    step_prog; intros.
+    step_proc; intros.
     eauto.
 
     simpl in *; intuition subst.
@@ -106,7 +106,7 @@ Module StatDB (v : VarsAPI) <: StatDbAPI.
     intros.
 
     apply spec_abstraction_compose; simpl.
-    step_prog; intros.
+    step_proc; intros.
     eauto.
 
     destruct a; simpl in *.
