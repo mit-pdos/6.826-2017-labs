@@ -1,14 +1,18 @@
 ## Common library code
 CODE := $(wildcard src/POCS.v)
 CODE += $(wildcard src/Helpers/*.v)
+CODE += $(wildcard src/Common/*.v)
 CODE += $(wildcard src/Spec/*.v)
 
 ## Lab 1: StatDB
 CODE += $(wildcard src/Lab1/*.v)
 
+## Lab 2: remap
+CODE += $(wildcard src/Lab2/*.v)
+
 COQRFLAGS := -R build POCS
 
-BINS	:= statdb-cli
+BINS	:= statdb-cli remap-nbd
 
 .PHONY: default
 default: $(patsubst %,bin/%,$(BINS)) docs
@@ -44,6 +48,7 @@ docs: coq
 	./scripts/add-preprocess.sh $@/*.hs
 
 statdb-cli/extract: build/Lab1/StatDbCli.vo
+remap-nbd/extract: build/Lab2/RemappedServer.vo
 
 bin/%: %/extract
 	mkdir -p $(@D)
@@ -60,4 +65,4 @@ clean:
 lab%-handin.tar.gz: clean
 	tar cf - `find . -type f | grep -v '^\.*$$' | grep -v '/\.git/' | grep -v 'lab[0-9].*\.tar\.gz'` | gzip > $@
 
-prepare-submit: lab1-handin.tar.gz
+prepare-submit: lab2-handin.tar.gz
