@@ -7,15 +7,18 @@ CODE += $(wildcard src/Spec/*.v)
 ## Lab 1: StatDB
 CODE += $(wildcard src/Lab1/*.v)
 
-## Lab 2: remap
+## Lab 2: bad block remapping
 CODE += $(wildcard src/Lab2/*.v)
+
+## Lab 3: atomic pair
+CODE += $(wildcard src/Lab3/*.v)
 
 COQRFLAGS := -R build POCS
 
 BINS	:= statdb-cli remap-nbd
 
 .PHONY: default
-default: $(patsubst %,bin/%,$(BINS)) docs
+default: build/Lab3/AtomicPairImpl.vo
 
 build/%.v: src/%.v
 	@mkdir -p $(@D)
@@ -63,6 +66,6 @@ clean:
 	rm -f $(foreach b,$(BINS),bin/$(b))
 
 lab%-handin.tar.gz: clean
-	tar cf - `find . -type f | grep -v '^\.*$$' | grep -v '/\.git/' | grep -v 'lab[0-9].*\.tar\.gz'` | gzip > $@
+	tar cf - `find . -type f | grep -v '^\.*$$' | grep -v '/\.git/' | grep -v 'lab[0-9][a-d]?.*\.tar\.gz'` | gzip > $@
 
-prepare-submit: lab2-handin.tar.gz
+prepare-submit: lab3-handin.tar.gz
