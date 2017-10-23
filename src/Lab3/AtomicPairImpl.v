@@ -1,6 +1,7 @@
 Require Import POCS.
 Require Import AtomicPairAPI.
 Require Import Common.OneDiskAPI.
+Import ListNotations.
 
 
 Module AtomicPair (d : OneDiskAPI) <: AtomicPairAPI.
@@ -29,8 +30,6 @@ Module AtomicPair (d : OneDiskAPI) <: AtomicPairAPI.
   Hint Extern 2 (_ <> _ :> addr) => addr_omega.
   Hint Extern 2 (_ < _) => addr_omega.
 
-  Opaque diskGet.
-
   (* EXERCISE (3a): implement this procedure *)
   Definition get : proc (block*block) :=
   Ret (block0, block0).
@@ -57,7 +56,8 @@ Module AtomicPair (d : OneDiskAPI) <: AtomicPairAPI.
   (* EXERCISE (3a): come up with some examples of disks and pairs that satisfy
      the abstraction relation and those that don't. Prove them correct.
 
-     Come up with at least 3 positive examples and 3 negative examples. *)
+     Come up with at least 2 positive examples and 1 negative example. *)
+
 
   Definition abstr : Abstraction AtomicPairAPI.State :=
     abstraction_compose d.abstr {| abstraction := atomic_pair_abstraction |}.
@@ -72,6 +72,8 @@ Module AtomicPair (d : OneDiskAPI) <: AtomicPairAPI.
      in *] in this lab to simplify diskGet/diskUpd expressions, rather than
      using the theorems manually. *)
   Notation "d [ a |-> b ]" := (diskUpd d a b) (at level 31, left associativity).
+
+  Opaque diskGet.
 
   (* EXERCISE (3b): prove your initialization procedure correct. *)
   Theorem init_ok : init_abstraction init recover abstr inited_any.
