@@ -13,12 +13,15 @@ CODE += $(wildcard src/Lab2/*.v)
 ## Lab 3: atomic pair
 CODE += $(wildcard src/Lab3/*.v)
 
+## Lab 4: disk mirroring
+CODE += $(wildcard src/Lab4/*.v)
+
 COQRFLAGS := -R build POCS
 
-BINS	:= statdb-cli remap-nbd
+BINS	:= statdb-cli remap-nbd replicate-nbd
 
 .PHONY: default
-default: build/Lab3/AtomicPairImpl.vo
+default: bin/replicate-nbd
 
 build/%.v: src/%.v
 	@mkdir -p $(@D)
@@ -52,6 +55,8 @@ docs: coq
 
 statdb-cli/extract: build/Lab1/StatDbCli.vo
 remap-nbd/extract: build/Lab2/RemappedServer.vo
+replicate-nbd/extract: build/Lab4/ReplicatedServer.vo
+mail-cli/extract: build/FS/MailCli.vo mail-cli/lib/FS/Ops.hs
 
 bin/%: %/extract
 	mkdir -p $(@D)
@@ -66,6 +71,6 @@ clean:
 	rm -f $(foreach b,$(BINS),bin/$(b))
 
 lab%-handin.tar.gz: clean
-	tar cf - `find . -type f | grep -v '^\.*$$' | grep -v '/\.git/' | grep -v 'lab[0-9][a-d]?.*\.tar\.gz'` | gzip > $@
+	tar cf - `find . -type f | grep -v '^\.*$$' | grep -v '/\.git/' | grep -v 'lab[0-9][a-d]\?.*\.tar\.gz'` | gzip > $@
 
-prepare-submit: lab3-handin.tar.gz
+prepare-submit: lab4-handin.tar.gz

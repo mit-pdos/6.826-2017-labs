@@ -93,6 +93,20 @@ sudo nbd-client -d /dev/nbd0
 The `remap-nbd` server won't exit since it continually accepts new connections,
 but you can send an interrupt signal with `Ctrl-C`.
 
+## Lab 3: Atomic Pair
+
+In this lab, you'll implement a simple API and prove that it is atomic with respect to crashes.
+
+Your job is to implement `get` and `put` for a pair of blocks such that `put` is atomic even if the computer crashes. The implementation uses a regular disk with atomic single-block writes; you'll have two copies of the data and swap between them by writing a pointer.
+
+## Lab 4: Replicated Disk
+
+In this lab, you'll prove a disk replication system correct. The API we provide you gives access to disks and allows one (but not both) to fail at any time. On top of these disks, you'll support a straightforward one-disk API without failures. The disk replication should work even if the computer crashes, though for this lab you'll need a recovery procedure to make this work out.
+
+This lab introduces two big ideas:
+* Concurrency. The replicated disk needs to handle one of the two disks failing at any time, which is a form of concurrency.
+* Recovery. In lab 3, the implementation was atomic on its own. The replicated disk has the right behavior under crashes only after running a recovery procedure to fix up discrepancies that can be caused by crashes at inopportune moments.
+
 ## Notes
 
 Please do not post your solutions publicly. We plan to use this material for
